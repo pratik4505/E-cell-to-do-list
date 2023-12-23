@@ -1,0 +1,51 @@
+[
+    {
+      "title": "Take back power bank from Sachin",
+      "createDate": "2023-12-22",
+      "dueDate": "2023-12-25",
+      "description": "Task description goes here",
+      "imageUrl": "https://example.com/image.jpg",
+      "isCompleted": false
+    },
+    {
+      "title": "Complete project proposal",
+      "createDate": "2023-12-23",
+      "dueDate": "2024-01-05",
+      "description": "Prepare and submit the project proposal",
+      "imageUrl": "https://example.com/project.jpg",
+      "isCompleted": false
+    },
+    {
+      "title": "Buy groceries",
+      "createDate": "2023-12-24",
+      "dueDate": "2023-12-26",
+      "description": "Get essentials from the grocery store",
+      "imageUrl": "https://example.com/groceries.jpg",
+      "isCompleted": false
+    },
+    {
+      "title": "Read a book",
+      "createDate": "2023-12-25",
+      "dueDate": "2024-01-10",
+      "description": "Spend some time reading a good book",
+      "imageUrl": "https://example.com/book.jpg",
+      "isCompleted": false
+    },
+    {
+      "title": "Exercise",
+      "createDate": "2023-12-26",
+      "dueDate": "2023-12-28",
+      "description": "Engage in a fitness routine",
+      "imageUrl": "https://example.com/exercise.jpg",
+      "isCompleted": true
+    },
+    {
+      "title": "Write blog post",
+      "createDate": "2023-12-27",
+      "dueDate": "2024-01-15",
+      "description": "Draft and publish a new blog post",
+      "imageUrl": "https://example.com/blog.jpg",
+      "isCompleted": true
+    }
+  ]
+  
