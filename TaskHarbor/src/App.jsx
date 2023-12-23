@@ -1,21 +1,42 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import fs from "fs";
+
+import Model from "./components/Model";
+import TaskForm from "./components/TaskForm";
+import Description from "./components/Description";
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [isPending, setIsPending] = useState(true);
-  
+  const [isAddTask, setIsAddTask] = useState(false);
+  const [screen, setScreen] = useState([false, false, false]);
+  const [description, setDescription] = useState(null);
 
   useEffect(() => {
     // Fetch data from JSON file (assuming it's in the public folder)
+   // handleResize();
     fetch("/data.json")
       .then((response) => response.json())
-      .then((data) => {setTasks(data);  })
+      .then((data) => {
+        setTasks(data);
+      })
       .catch((error) => console.error("Error fetching data:", error));
 
-      
+   
   }, []);
 
+  // const handleResize = () => {
+  //   if (window.innerWidth <= 390) {
+  //     setScreen(()=>[true, false, false]);
+  //   } else if (window.innerWidth <= 744) {
+  //     setScreen(()=>[false, true, false]);
+  //   } else {
+  //     setScreen(()=>[false, false, true]);
+  //   }
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize)
+  // })
   
 
   const sortByCreateDate = () => {
@@ -38,17 +59,22 @@ function App() {
     );
 
     setTasks(updatedTasks);
-   
   };
 
   const deleteTask = (createDate) => {
     const updatedTasks = tasks.filter((task) => task.createDate !== createDate);
     setTasks(updatedTasks);
-  }
-
-  console.log(tasks);
+  };
+  
+ 
   return (
-    <div className="bg-white flex max-w-[480px] w-full flex-col items-stretch mx-auto pt-10">
+    <div className="bg-white flex max-w-[480px] w-full items-stretch mx-auto pt-10">
+      {isAddTask && (
+        <Model closeDialog={() => setIsAddTask(false)}>
+          <TaskForm />
+        </Model>
+      )}
+    <div>
       <header className="text-violet-800 text-4xl font-black whitespace-nowrap">
         TO-DO LIST
       </header>
@@ -69,20 +95,24 @@ function App() {
           <div
             className="text-black text-xl font-semibold self-center my-auto"
             aria-label="Due date"
-          onClick={()=>sortByCreateDate}>
+            onClick={() => sortByCreateDate}
+          >
             Date Created
           </div>
 
           <div
             className="text-black text-xl font-semibold self-center my-auto"
-            onClick={()=>sortByDueDate}
+            onClick={() => sortByDueDate}
             aria-label="Due date"
           >
             Due date
           </div>
         </div>
 
-        <div className=" text-white  text-lg font-semibold whitespace-nowrap bg-violet-800 self-stretch justify-center items-center mt-4 px-16 py-2 rounded-2xl">
+        <div
+          onClick={() => setIsAddTask(true)}
+          className=" text-white  text-lg font-semibold whitespace-nowrap bg-violet-800 self-stretch justify-center items-center mt-4 px-16 py-2 rounded-2xl"
+        >
           Create new task
         </div>
       </div>
@@ -93,7 +123,10 @@ function App() {
             <h2 className="text-black text-3xl font-bold self-stretch">
               Pending Tasks
             </h2>
-            <div className="text-white text-lg font-semibold whitespace-nowrap bg-violet-800 self-stretch justify-center items-center mt-4 px-16 py-2 rounded-2xl">
+            <div
+              onClick={() => setIsAddTask(true)}
+              className="text-white text-lg font-semibold whitespace-nowrap bg-violet-800 self-stretch justify-center items-center mt-4 px-16 py-2 rounded-2xl"
+            >
               Create new task
             </div>
           </div>
@@ -105,15 +138,23 @@ function App() {
                 <div
                   className="mx-1 bg-white self-stretch flex w-full flex-col items-stretch mt-3 pt-4 pb-2.5 px-2.5 rounded-2xl"
                   key={task.createDate}
-                >
+                onClick={()=>setDescription(task)}>
                   <div className="text-black text-xl font-semibold whitespace-nowrap overflow-hidden line-clamp-3">
                     {task.title}
                   </div>
-                  <div onClick={()=>completeTask(task.createDate)} className="flex justify-between gap-5 mt-7 items-start">
-                   {!task.isCompleted&& <button className="text-lime-700 text-center text-lg font-semibold whitespace-nowrap bg-lime-50 grow items-stretch pt-3.5 pb-1.5 px-9 rounded-md">
-                      Complete
-                    </button>}
-                    <button onClick={deleteTask} className="text-red-800 text-center text-lg font-semibold whitespace-nowrap bg-rose-200 grow justify-center items-stretch px-12 py-3 rounded-md">
+                  <div
+                    onClick={() => completeTask(task.createDate)}
+                    className="flex justify-between gap-5 mt-7 items-start"
+                  >
+                    {!task.isCompleted && (
+                      <button className="text-lime-700 text-center text-lg font-semibold whitespace-nowrap bg-lime-50 grow items-stretch pt-3.5 pb-1.5 px-9 rounded-md">
+                        Complete
+                      </button>
+                    )}
+                    <button
+                      onClick={deleteTask}
+                      className="text-red-800 text-center text-lg font-semibold whitespace-nowrap bg-rose-200 grow justify-center items-stretch px-12 py-3 rounded-md"
+                    >
                       Delete
                     </button>
                   </div>
@@ -137,6 +178,9 @@ function App() {
           </div>
         </footer>
       </div>
+      </div>
+      {description&&window.innerWidth<744&&<Model closeDialog={() => setDescription(null)}><Description data={description} border={false}/></Model>}
+      {description&&window.innerWidth>=744&&<Description data={description} border={true}/>}
     </div>
   );
 }
