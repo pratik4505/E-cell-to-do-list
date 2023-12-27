@@ -41,21 +41,26 @@ function TaskForm(props) {
         rows="4"
       ></textarea>
 
-<div className="flex items-center justify-between mt-4 p-3 rounded-2xl bg-indigo-100">
-  {/* Your custom-styled "Change" button */}
-  <label htmlFor="dueDate" className="custom-date-input-button button bg-neutral-500 p-3 rounded-2xl cursor-pointer">
-    Change
-  </label>
-
-  {/* Your visually hidden date input */}
+<div className="flex items-end justify-between mt-4 rounded-2xl bg-indigo-100">
+  {/* Your date input */}
   <input
-    className="text-black text-xl font-light whitespace-nowrap bg-indigo-100 p-3 rounded-2xl appearance-none border-none absolute top-0 left-0 opacity-0"
+    className="text-black text-xl font-light whitespace-nowrap"
     type="date"
     id="dueDate"
-    placeholder={dueDate}
+    placeholder="Due Date"
+    aria-label="Due Date"
     value={dueDate}
     onChange={handleDueDateChange}
+    style={{ display: "none" }} // hide the default date input
   />
+
+  {/* Your custom-styled "Choose Date" button */}
+  <label
+    htmlFor="dueDate"
+    className="custom-date-input button bg-neutral-500 p-3 rounded-r-2xl ml-auto"
+  >
+    Choose Date
+  </label>
 </div>
 
 
